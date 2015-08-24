@@ -28,8 +28,7 @@ def handle_error(handler):
 
 @handle_error
 def list_jobs(url, user_name, password, bitmask):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     jobs = uws_client.get_job_list()
 
@@ -93,8 +92,7 @@ def _register_job_reference_for_table(rows, job):
 
 @handle_error
 def show_job(url, user_name, password, id):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     job = uws_client.get_job(id)
 
@@ -103,8 +101,7 @@ def show_job(url, user_name, password, id):
 
 @handle_error
 def new_job(url, user_name, password, parameters={}, run=False):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     job = uws_client.new_job(parameters)
 
@@ -126,8 +123,7 @@ def new_job(url, user_name, password, parameters={}, run=False):
 
 @handle_error
 def set_parameters_job(url, user_name, password, id, parameters={}):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     if len(parameters) == 0:
         job = uws_client.get_job(id)
@@ -139,8 +135,7 @@ def set_parameters_job(url, user_name, password, id, parameters={}):
 
 @handle_error
 def run_job(url, user_name, password, id):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     job = uws_client.run_job(id)
 
@@ -149,8 +144,7 @@ def run_job(url, user_name, password, id):
 
 @handle_error
 def abort_job(url, user_name, password, id):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     job = uws_client.abort_job(id)
 
@@ -159,8 +153,7 @@ def abort_job(url, user_name, password, id):
 
 @handle_error
 def delete_job(url, user_name, password, id):
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     success = uws_client.delete_job(id)
 
@@ -178,8 +171,7 @@ def results_job(url, user_name, password, id, result_id, user_file_base):
             sys.stdout.write("\rDownloaded %d bytes" % current)    # or print >> sys.stdout, "\r%d%%" %i,
             sys.stdout.flush()
 
-    uws_connection = UWS.connection.Connection(url, user_name, password)
-    uws_client = UWS.base.BaseUWSClient(uws_connection)
+    uws_client = UWS.client.Client(url=url, user=user_name, password=password)
 
     job = uws_client.get_job(id)
 
@@ -210,7 +202,7 @@ def results_job(url, user_name, password, id, result_id, user_file_base):
             url = str(result.reference)
 
             print "Downloading %s into file '%s'" % (result.id, filename)
-            uws_connection.download_file(url, user_name, password, filename, callback=print_progress)
+            uws_client.connection.download_file(url, user_name, password, filename, callback=print_progress)
             print ""
             print "Finished downloading file '%s'\n" % (filename)
             retrieved = True

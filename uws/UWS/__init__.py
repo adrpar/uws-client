@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import base
+import client
 import connection
 import models
 
-from base import UWSError
+from errors import UWSError

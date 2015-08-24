@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from lxml.etree import XMLSyntaxError as XMLSyntaxError
 
+import connection as UWSConnection
 import models
+from errors import UWSError
 
 
-class BaseUWSClient(object):
-    def __init__(self, connection):
-        self.connection = connection
+class Client(object):
+    def __init__(self, url=None, user=None, password=None, connection=None):
+        if connection:
+            self.connection = connection
+        else:
+            self.connection = UWSConnection.Connection(url, user, password)
 
     def get_job_list(self):
         try:
@@ -120,9 +125,3 @@ class BaseUWSClient(object):
             raise e
 
         return result
-
-
-class UWSError(Exception):
-    def __init__(self, msg, raw=False):
-        self.msg = msg
-        self.raw = raw

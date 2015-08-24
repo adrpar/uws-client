@@ -2,8 +2,9 @@
 import httplib
 import urllib
 import urllib2
-from urlparse import urlparse
 import base64
+
+from urlparse import urlparse
 
 
 class Connection(object):
